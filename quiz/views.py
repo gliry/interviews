@@ -9,11 +9,18 @@ from quiz.models import Answer, Quiz, Question
 from quiz.serializers import AnswerSerializer, QuizSerializer, QuestionSerializer
 
 
-class AnswerCreateView(generics.CreateAPIView):
+class AnswerCreateView(View):
     serializer_class = AnswerSerializer
     queryset = Answer.objects.all()
 
     def post(self, request, *args, **kwargs):
+        """
+        Requesting data for adding answer in system. Available at the link answers/
+        :param request: requesting data, JSON. Looks like: {"user_id": int, "quiz": int, "question": int, "answer": str}
+        :param args: unpacking arguments
+        :param kwargs: unpacking named arguments
+        :return: Response with requested data
+        """
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -25,6 +32,9 @@ class QuizCreateView(View):
     queryset = Quiz.objects.all()
 
     def get(self, request):
+        """
+        return available quizs if they exists, else return HTTPResponse.
+        """
         list_active_quizs = []
         time = timezone.now()
         quizs = Quiz.objects.all()
@@ -45,6 +55,11 @@ class QuestionCreateView(View):
     queryset = Question.objects.all()
 
     def get(self, request, pk):
+        """
+        Show all user's quiz with some data
+        :param pk: user's id
+        :return: list of user's data
+        """
         answers = Answer.objects.filter(user_id=pk)
         list_data = []
         for elem in answers:
