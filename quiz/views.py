@@ -1,10 +1,10 @@
-from django.shortcuts import render, get_object_or_404
-import datetime
+from django.http import HttpResponse
+from django.shortcuts import render
 from django.utils import timezone
-from django.http import JsonResponse, HttpResponse
 from django.views import View
 from rest_framework import generics
 from rest_framework.response import Response
+
 from quiz.models import Answer, Quiz, Question
 from quiz.serializers import AnswerSerializer, QuizSerializer, QuestionSerializer
 

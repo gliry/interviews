@@ -17,9 +17,10 @@ from django.contrib import admin
 from django.urls import path
 from quiz.views import *
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("interviews/", QuizCreateView.as_view()),
-    path("answerss/", AnswerCreateView.as_view()),
+    path("answers/", AnswerCreateView.as_view()),
     path("stats/<int:pk>/", QuestionCreateView.as_view()),
 ]
