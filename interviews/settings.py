@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "quiz",
     "rest_framework",
+    "drf_yasg",
 ]
 
 REST_FRAMEWORK = {
@@ -72,6 +73,9 @@ TEMPLATES = [
         },
     },
 ]
+
+TEMPLATE_LOADERS = ("django.template.loaders.eggs.Loader",)
+
 
 WSGI_APPLICATION = "interviews.wsgi.application"
 
