@@ -19,7 +19,7 @@ class Question(models.Model):
         ("Single", "Single choice"),
         ("Multiple", "Multiple choice"),
     )
-    question_id = models.PositiveIntegerField(unique=True, primary_key=True)
+    question_id = models.PositiveIntegerField(primary_key=True)
     text = models.CharField(max_length=256, blank=False)
     type = models.CharField(max_length=256, choices=CHOICES)
 
@@ -28,7 +28,7 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    user_id = models.PositiveIntegerField(unique=True, primary_key=True)
+    user_id = models.PositiveIntegerField()
     quiz = models.ForeignKey(Quiz, on_delete=models.DO_NOTHING)
     question = models.ForeignKey(Question, on_delete=models.DO_NOTHING)
     answer = models.CharField(max_length=256, blank=False)

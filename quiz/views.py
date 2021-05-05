@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 import datetime
+from django.utils import timezone
 from django.http import JsonResponse, HttpResponse
 from django.views import View
 from rest_framework import generics
@@ -13,7 +14,10 @@ class AnswerCreateView(generics.CreateAPIView):
     queryset = Answer.objects.all()
 
     def post(self, request, *args, **kwargs):
-        pass
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
 
 
 class QuizCreateView(View):
@@ -22,10 +26,10 @@ class QuizCreateView(View):
 
     def get(self, request):
         list_active_quizs = []
+        time = timezone.now()
         quizs = Quiz.objects.all()
         for object in quizs:
-            if object.start_time <= object.end_time:
-                print(object.start_time > object.end_time)
+            if object.end_time >= time:
                 list_active_quizs.append(object)
 
         if list_active_quizs:
@@ -36,9 +40,24 @@ class QuizCreateView(View):
             return HttpResponse("Нет активных опросов")
 
 
-class QuestionCreateView(generics.ListAPIView):
+class QuestionCreateView(View):
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
 
-    def get(self):
-        pass
+    def get(self, request, pk):
+        answers = Answer.objects.filter(user_id=pk)
+        list_data = []
+        for elem in answers:
+            quiz = elem.quiz
+            question = elem.question
+            user_id = elem.user_id
+            answer = elem.answer
+            data = {
+                "quiz": quiz,
+                "question": question,
+                "user_id": user_id,
+                "answer": answer,
+            }
+            list_data.append(data)
+
+        return HttpResponse(list_data)

@@ -20,6 +20,6 @@ from quiz.views import *
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("interviews/", QuizCreateView.as_view()),
-    path("interviews/<int:pk>/", AnswerCreateView.as_view()),
-    path("stats/<int:pk>/", QuestionCreateView),
+    path("answerss/", AnswerCreateView.as_view()),
+    path("stats/<int:pk>/", QuestionCreateView.as_view()),
 ]
