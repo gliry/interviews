@@ -39,7 +39,7 @@ class QuizCreateView(View):
         time = timezone.now()
         quizs = Quiz.objects.all()
         for object in quizs:
-            if object.end_time >= time:
+            if object.end_time >= time:  # Is quiz available?
                 list_active_quizs.append(object)
 
         if list_active_quizs:
