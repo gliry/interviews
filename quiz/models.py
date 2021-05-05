@@ -4,7 +4,7 @@ from django.db import models
 class Quiz(models.Model):
     quiz_id = models.PositiveIntegerField(unique=True, primary_key=True)
     name = models.CharField(max_length=256, blank=False)
-    start_time = models.DateTimeField(auto_now_add=True)
+    start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     description = models.CharField(max_length=256, blank=False)
 
@@ -15,9 +15,9 @@ class Quiz(models.Model):
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.DO_NOTHING)
     CHOICES = (
-        ('Text', 'Text response'),
-        ('Single', 'Single choice'),
-        ('Multiple', 'Multiple choice')
+        ("Text", "Text response"),
+        ("Single", "Single choice"),
+        ("Multiple", "Multiple choice"),
     )
     question_id = models.PositiveIntegerField(unique=True, primary_key=True)
     text = models.CharField(max_length=256, blank=False)
